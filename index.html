@@ -1,493 +1,1662 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="id">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KYGA | Key to Global Automation</title>
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                        mono: ['JetBrains Mono', 'monospace'],
-                    },
-                    colors: {
-                        brand: {
-                            black: '#000000',
-                            surface: '#0A0A0A',
-                            surfaceLight: '#111111',
-                            primary: '#0B1B3D',
-                            teal: '#00E5FF',
-                            amber: '#FFB300',
-                            crimson: '#FF2A2A',
-                            textSec: '#A1A1AA'
-                        }
-                    },
-                    backgroundImage: {
-                        'radial-glow': 'radial-gradient(circle at center, rgba(11,27,61,0.5) 0%, rgba(0,0,0,1) 70%)',
-                    }
-                }
-            }
-        }
-    </script>
-    <style>
-        body {
-            background-color: #000000;
-            color: #FFFFFF;
-            -webkit-font-smoothing: antialiased;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KYGA — Key to Global Automation | Connect Anything. Command Everything.</title>
+  <meta name="description"
+    content="KYGA adalah Key to Global Automation untuk seluruh ekosistem IoT Anda. Dari Smart Home hingga Museum-Grade Security.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="icon" type="image/x-icon" href="/favicon.svg">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* ===== RESET & TOKENS ===== */
+    *,
+    *::before,
+    *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-        .glass-card {
-            background-color: rgba(10, 10, 10, 0.7);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(12px);
-            transition: all 0.3s ease;
-        }
+    :root {
+      --bg: #FFFFFF;
+      --surface: #F8F9FA;
+      --text: #000000;
+      --accent: #0070F3;
+      --glow: #00DFD8;
+      --muted: #6B7280;
+      --border: #E5E7EB;
+      --success: #10B981;
+      --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+      --max-w: 1200px;
+      --px: 20px;
+      --radius: 12px;
+      --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
 
-        .glass-card:hover {
-            border-color: rgba(0, 229, 255, 0.3);
-            box-shadow: 0 4px 30px rgba(0, 229, 255, 0.05) inset;
-            transform: translateY(-2px);
-        }
+    @media (min-width: 640px) {
+      :root {
+        --px: 40px;
+      }
+    }
 
-        .glow-button {
-            box-shadow: 0 0 20px rgba(0, 229, 255, 0.2);
-            transition: all 0.3s ease;
-        }
-        
-        .glow-button:hover {
-            box-shadow: 0 0 30px rgba(0, 229, 255, 0.4);
-            transform: scale(1.02);
-        }
+    @media (min-width: 1024px) {
+      :root {
+        --px: 80px;
+      }
+    }
 
-        .status-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            display: inline-block;
-            margin-right: 6px;
-        }
+    html {
+      scroll-behavior: smooth;
+    }
 
-        .status-online { background-color: #00E5FF; box-shadow: 0 0 8px #00E5FF; }
-        .status-warning { background-color: #FFB300; box-shadow: 0 0 8px #FFB300; }
-        .status-danger { background-color: #FF2A2A; box-shadow: 0 0 8px #FF2A2A; }
+    body {
+      font-family: var(--font);
+      font-size: 16px;
+      line-height: 1.6;
+      color: var(--text);
+      background: var(--bg);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      overflow-x: hidden;
+    }
 
-        /* Tech Grid pattern */
-        .bg-grid {
-            background-size: 40px 40px;
-            background-image: linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-                              linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-        }
+    img {
+      display: block;
+      max-width: 100%;
+    }
 
-        /* Responsive typography scale adjustments */
-        @media (max-width: 640px) {
-            h1 { font-size: 2.25rem !important; line-height: 1.2 !important; }
-            h2 { font-size: 1.875rem !important; }
-        }
-    </style>
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button {
+      font-family: inherit;
+      cursor: pointer;
+      border: none;
+      background: none;
+    }
+
+    /* Focus ring */
+    :focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 3px;
+      border-radius: 4px;
+    }
+
+    /* ===== UTILITIES ===== */
+    .container {
+      width: 100%;
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 0 var(--px);
+    }
+
+    .section {
+      padding: 80px 0;
+    }
+
+    @media (min-width: 1024px) {
+      .section {
+        padding: 120px 0;
+      }
+    }
+
+    .section-label {
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-size: clamp(28px, 5vw, 48px);
+      font-weight: 600;
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+      margin-bottom: 20px;
+    }
+
+    .section-subtitle {
+      font-size: 17px;
+      color: var(--muted);
+      max-width: 560px;
+      line-height: 1.7;
+    }
+
+    /* ===== REVEAL (Scroll Animation) ===== */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.7s var(--transition), transform 0.7s var(--transition);
+      transition-delay: var(--delay, 0s);
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .reveal {
+        opacity: 1;
+        transform: none;
+        transition: none;
+      }
+
+      .hero__headline span {
+        opacity: 1 !important;
+        transform: none !important;
+        animation: none !important;
+      }
+
+      .hero__grid {
+        animation: none !important;
+      }
+
+      .shimmer {
+        background-size: 100% !important;
+        animation: none !important;
+      }
+    }
+
+    /* ===== HEADER ===== */
+    .header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      background: rgba(255, 255, 255, 0.8);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      transition: background var(--transition);
+    }
+
+    .header__inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+    }
+
+    .header__logo {
+      height: 36px;
+      width: auto;
+    }
+
+    .header__nav {
+      display: none;
+      gap: 32px;
+      list-style: none;
+    }
+
+    @media (min-width: 768px) {
+      .header__nav {
+        display: flex;
+      }
+    }
+
+    .header__nav a {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--muted);
+      transition: color var(--transition);
+    }
+
+    .header__nav a:hover {
+      color: var(--text);
+    }
+
+    .header__cta {
+      display: none;
+      /* Hidden on mobile */
+      font-size: 14px;
+      font-weight: 500;
+      padding: 8px 20px;
+      border-radius: 8px;
+      background: var(--text);
+      color: var(--bg);
+      transition: opacity var(--transition), transform var(--transition);
+    }
+
+    .header__cta:hover {
+      opacity: 0.85;
+      transform: translateY(-1px);
+    }
+
+    /* Mobile menu */
+    .header__menu-btn {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      padding: 8px;
+    }
+
+    .header__menu-btn span {
+      display: block;
+      width: 20px;
+      height: 2px;
+      background: var(--text);
+      border-radius: 2px;
+      transition: var(--transition);
+    }
+
+    @media (min-width: 768px) {
+      .header__menu-btn {
+        display: none;
+      }
+
+      .header__cta {
+        display: inline-block;
+      }
+    }
+
+    .mobile-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      padding-top: 64px;
+      /* Space for the header */
+      background: rgba(255, 255, 255, 0.98);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 32px;
+      z-index: 90;
+      /* Lower than header (100) */
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity var(--transition), transform var(--transition);
+      transform: translateY(-10px);
+    }
+
+    .mobile-nav.open {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0);
+    }
+
+    .mobile-nav a {
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    /* ===== HERO ===== */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      overflow: hidden;
+      padding-top: 64px;
+    }
+
+    /* Animated grid background */
+    .hero__grid {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(0, 112, 243, 0.09) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 112, 243, 0.09) 1px, transparent 1px);
+      background-size: 60px 60px;
+      animation: gridShift 20s linear infinite;
+    }
+
+    @keyframes gridShift {
+      0% {
+        background-position: 0 0;
+      }
+
+      100% {
+        background-position: 60px 60px;
+      }
+    }
+
+    /* Radial glow */
+    .hero__glow {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 800px;
+      height: 800px;
+      transform: translate(-50%, -50%);
+      background: radial-gradient(circle, rgba(0, 112, 243, 0.08) 0%, rgba(0, 223, 216, 0.04) 40%, transparent 70%);
+      pointer-events: none;
+    }
+
+    /* Floating orbs */
+    .hero__orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      pointer-events: none;
+      opacity: 0.5;
+      animation: orbFloat 8s ease-in-out infinite;
+    }
+
+    .hero__orb--blue {
+      width: 300px;
+      height: 300px;
+      background: var(--accent);
+      top: 20%;
+      left: 15%;
+      animation-delay: 0s;
+    }
+
+    .hero__orb--cyan {
+      width: 250px;
+      height: 250px;
+      background: var(--glow);
+      bottom: 15%;
+      right: 15%;
+      animation-delay: -4s;
+    }
+
+    @keyframes orbFloat {
+
+      0%,
+      100% {
+        transform: translate(0, 0) scale(1);
+      }
+
+      33% {
+        transform: translate(30px, -20px) scale(1.05);
+      }
+
+      66% {
+        transform: translate(-20px, 15px) scale(0.95);
+      }
+    }
+
+    .hero__content {
+      position: relative;
+      z-index: 2;
+      max-width: 920px;
+      padding: 0 var(--px);
+    }
+
+    .hero__headline {
+      font-size: clamp(36px, 8vw, 72px);
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: -0.03em;
+      margin-bottom: 24px;
+    }
+
+    .hero__headline .word {
+      display: inline-block;
+      clip-path: inset(0 100% 0 0);
+      transform: translateY(20px);
+      animation: wordReveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+
+      /* FIX: This forces the word to use the parent's gradient position */
+      background: inherit;
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+
+      /* Important: ensure no background-attachment: fixed unless needed */
+    }
+
+    @keyframes wordReveal {
+      to {
+        /* Reveals the word by sliding the clip-path inset to 0 */
+        clip-path: inset(0 0% 0 0);
+        transform: translateY(0);
+      }
+    }
+
+    /* Shimmer on headline */
+    .shimmer {
+      background: linear-gradient(90deg,
+          var(--text) 0%,
+          var(--text) 40%,
+          var(--accent) 50%,
+          var(--text) 60%,
+          var(--text) 100%);
+      background-size: 200% 100%;
+
+      /* Critical: The parent must define the clip-path context */
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+
+      animation: shimmerMove 5s ease-in-out infinite;
+      /* Slowed down for "premium" feel */
+    }
+
+    @keyframes shimmerMove {
+      0% {
+        background-position: 120% 0;
+      }
+
+      100% {
+        background-position: -80% 0;
+      }
+    }
+
+    .hero__sub {
+      font-size: clamp(16px, 2.5vw, 19px);
+      color: var(--muted);
+      line-height: 1.7;
+      margin-bottom: 40px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .hero__sub strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .hero__cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 16px;
+      font-weight: 500;
+      padding: 16px 36px;
+      border-radius: 12px;
+      background: var(--text);
+      color: var(--bg);
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+      transition: transform var(--transition), box-shadow var(--transition);
+      position: relative;
+    }
+
+    .hero__cta:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    }
+
+    .hero__cta:active {
+      transform: translateY(0);
+    }
+
+    .hero__cta svg {
+      transition: transform var(--transition);
+    }
+
+    .hero__cta:hover svg {
+      transform: translateX(3px);
+    }
+
+    /* Scroll indicator */
+    .hero__scroll {
+      position: absolute;
+      bottom: 32px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      animation: scrollBounce 2s ease-in-out infinite;
+    }
+
+    @keyframes scrollBounce {
+
+      0%,
+      100% {
+        transform: translateX(-50%) translateY(0);
+      }
+
+      50% {
+        transform: translateX(-50%) translateY(6px);
+      }
+    }
+
+    /* ===== PROBLEM SECTION ===== */
+    .problems {
+      background: var(--surface);
+    }
+
+    /* ===== PROBLEM SECTION (Unique Glows) ===== */
+    .problems {
+      background: var(--surface);
+    }
+
+    .problems__grid {
+      display: grid;
+      gap: 20px;
+      margin-top: 48px;
+    }
+
+    @media (min-width: 640px) {
+      .problems__grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .problems__grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .problems__grid .card:nth-child(4) {
+        grid-column: 1 / 2;
+      }
+
+      .problems__grid .card:nth-child(5) {
+        grid-column: 2 / 4;
+      }
+    }
+
+    .card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 32px;
+      transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at top right, var(--glow-color, transparent) 0%, transparent 60%);
+      opacity: 0.03;
+      transition: opacity var(--transition);
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.04);
+      border-color: var(--glow-color);
+    }
+
+    .card:hover::before {
+      opacity: 0.1;
+    }
+
+    .card__icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      background: rgba(var(--glow-rgb), 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+      color: var(--glow-color);
+      transition: transform var(--transition);
+    }
+
+    .card:hover .card__icon {
+      transform: scale(1.1) rotate(5deg);
+    }
+
+    /* Unique Colors */
+    .card--blue {
+      --glow-color: #0070F3;
+      --glow-rgb: 0, 112, 243;
+    }
+
+    .card--cyan {
+      --glow-color: #00DFD8;
+      --glow-rgb: 0, 223, 216;
+    }
+
+    .card--emerald {
+      --glow-color: #10B981;
+      --glow-rgb: 16, 185, 129;
+    }
+
+    .card--purple {
+      --glow-color: #7C3AED;
+      --glow-rgb: 124, 58, 237;
+    }
+
+    .card--indigo {
+      --glow-color: #4F46E5;
+      --glow-rgb: 79, 70, 229;
+    }
+
+    .card__title {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+
+    /* ===== PROTOCOL (Pulse Path) ===== */
+    .protocol {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .protocol__path-container {
+      position: relative;
+      margin-top: 64px;
+      padding-bottom: 40px;
+    }
+
+    .protocol__line {
+      position: absolute;
+      top: 40px;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: var(--border);
+      z-index: 1;
+      display: none;
+    }
+
+    @media (min-width: 1024px) {
+      .protocol__line {
+        display: block;
+      }
+    }
+
+    .protocol__pulse {
+      position: absolute;
+      top: 0;
+      left: -10%;
+      width: 100px;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+      opacity: 0.5;
+      animation: pulsePath 6s linear infinite;
+    }
+
+    @keyframes pulsePath {
+      0% {
+        left: -20%;
+      }
+
+      100% {
+        left: 120%;
+      }
+    }
+
+    .protocol__steps {
+      display: grid;
+      gap: 40px;
+      position: relative;
+      z-index: 2;
+    }
+
+    @media (min-width: 640px) {
+      .protocol__steps {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .protocol__steps {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+
+    .step-node {
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .step-node__circle {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: var(--bg);
+      border: 2px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 24px;
+      position: relative;
+      transition: transform var(--transition), border-color var(--transition), box-shadow var(--transition);
+      z-index: 3;
+    }
+
+    .step-node:hover .step-node__circle {
+      transform: scale(1.1);
+      border-color: var(--accent);
+      box-shadow: 0 0 20px rgba(0, 112, 243, 0.2);
+    }
+
+    .step-node__number {
+      position: absolute;
+      top: -10px;
+      right: -10px;
+      width: 32px;
+      height: 32px;
+      background: var(--accent);
+      color: white;
+      border-radius: 50%;
+      font-size: 14px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 3px solid var(--bg);
+    }
+
+    .step-node__title {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .step-node__text {
+      font-size: 14px;
+      color: var(--muted);
+      max-width: 200px;
+    }
+
+    /* ===== TESTIMONIALS ===== */
+    .testimonials {
+      background: var(--surface);
+    }
+
+    .testimonials__grid {
+      display: grid;
+      gap: 20px;
+      margin-top: 48px;
+    }
+
+    @media (min-width: 768px) {
+      .testimonials__grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    .testimonial {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 32px;
+      display: flex;
+      flex-direction: column;
+      transition: transform var(--transition), box-shadow var(--transition);
+    }
+
+    .testimonial:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.06);
+    }
+
+    .testimonial__quote {
+      font-size: 15px;
+      line-height: 1.7;
+      color: var(--text);
+      flex: 1;
+      margin-bottom: 20px;
+      font-style: italic;
+    }
+
+    .testimonial__quote::before {
+      content: '"';
+      font-size: 36px;
+      font-weight: 700;
+      color: var(--accent);
+      line-height: 0;
+      vertical-align: -12px;
+      margin-right: 4px;
+    }
+
+    .testimonial__author {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .testimonial__role {
+      font-size: 13px;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+
+    /* ===== SERVICES ===== */
+    /* ===== SERVICES (Showcase Bento) ===== */
+    .services__grid {
+      display: grid;
+      gap: 20px;
+      margin-top: 48px;
+    }
+
+    @media (min-width: 768px) {
+      .services__grid {
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: repeat(2, auto);
+      }
+
+      .service--residential {
+        grid-row: 1 / 2;
+      }
+
+      .service--commercial {
+        grid-row: 2 / 3;
+      }
+
+      .service--fortress {
+        grid-row: 1 / 3;
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .services__grid {
+        grid-template-columns: 1.2fr 1fr;
+      }
+    }
+
+    .service {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 40px;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
+      background: var(--bg);
+    }
+
+    .service:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.04);
+      border-color: var(--accent);
+    }
+
+    .service--fortress {
+      background: var(--text);
+      color: var(--bg);
+      border-color: transparent;
+      padding: 60px 40px;
+    }
+
+    .service--fortress:hover {
+      border-color: var(--accent);
+      box-shadow: 0 30px 60px rgba(0, 112, 243, 0.15);
+    }
+
+    .service--fortress .service__text {
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    .service--fortress .service__badge {
+      background: rgba(255, 255, 255, 0.1);
+      color: var(--glow);
+    }
+
+    .service--fortress .service__icon {
+      background: rgba(0, 223, 216, 0.15);
+      color: var(--glow);
+    }
+
+    .service__badge {
+      display: inline-block;
+      align-self: flex-start;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      background: rgba(0, 112, 243, 0.08);
+      padding: 6px 14px;
+      border-radius: 20px;
+      margin-bottom: 24px;
+    }
+
+    .service__title {
+      font-size: 26px;
+      font-weight: 600;
+      margin-bottom: 16px;
+      line-height: 1.2;
+    }
+
+    .service--fortress .service__title {
+      font-size: 32px;
+    }
+
+    .service__text {
+      font-size: 16px;
+      color: var(--muted);
+      line-height: 1.7;
+      margin-bottom: 32px;
+    }
+
+    .service__icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 14px;
+      background: rgba(0, 112, 243, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 24px;
+      color: var(--accent);
+    }
+
+    .service__cta-link {
+      margin-top: auto;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 600;
+      font-size: 15px;
+      color: var(--accent);
+      transition: gap var(--transition);
+    }
+
+    .service--fortress .service__cta-link {
+      color: var(--glow);
+    }
+
+    .service__cta-link:hover {
+      gap: 12px;
+    }
+
+    /* ===== FINAL CTA ===== */
+    .cta-section {
+      /* background: var(--text); */
+      color: var(--bg);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta__grid {
+      position: relative;
+      inset: 0;
+      background-color: var(--text);
+      background-image:
+        linear-gradient(rgba(248, 249, 250, 0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(248, 249, 250, 0.02) 1px, transparent 1px);
+      background-size: 60px 60px;
+      animation: gridShift 20s linear infinite;
+    }
+
+    .cta-section .section-label {
+      color: var(--glow);
+    }
+
+    .cta-section .section-title {
+      color: var(--bg);
+    }
+
+    .cta-section .section-subtitle {
+      color: rgba(255, 255, 255, 0.6);
+      margin: 0 auto 40px;
+    }
+
+    .cta-section__btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 16px;
+      font-weight: 500;
+      padding: 16px 40px;
+      border-radius: 12px;
+      background: var(--bg);
+      color: var(--text);
+      transition: transform var(--transition), box-shadow var(--transition);
+    }
+
+    .cta-section__btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(255, 255, 255, 0.15);
+    }
+
+    /* Gradient line on top */
+    .cta-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent), var(--glow), var(--accent));
+    }
+
+    /* ===== FOOTER ===== */
+    .footer {
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      padding: 48px 0 32px;
+    }
+
+    .footer__inner {
+      display: grid;
+      gap: 32px;
+    }
+
+    @media (min-width: 640px) {
+      .footer__inner {
+        grid-template-columns: 2fr 1fr 1fr;
+      }
+    }
+
+    .footer__brand p {
+      font-size: 14px;
+      color: var(--muted);
+      margin-top: 12px;
+      max-width: 300px;
+      line-height: 1.6;
+    }
+
+    .footer__col-title {
+      font-size: 13px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text);
+      margin-bottom: 16px;
+    }
+
+    .footer__links {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .footer__links a {
+      font-size: 14px;
+      color: var(--muted);
+      transition: color var(--transition);
+    }
+
+    .footer__links a:hover {
+      color: var(--text);
+    }
+
+    .footer__bottom {
+      margin-top: 40px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .footer__socials {
+      display: flex;
+      gap: 16px;
+    }
+
+    .footer__socials a {
+      color: var(--muted);
+      transition: color var(--transition);
+    }
+
+    .footer__socials a:hover {
+      color: var(--text);
+    }
+  </style>
 </head>
-<body class="overflow-x-hidden font-sans">
-    
-    <!-- Navigation -->
-    <nav class="fixed top-0 w-full z-50 glass-card !border-x-0 !border-t-0 !rounded-none">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-20">
-                <div class="flex items-center gap-2">
-                    <div class="w-8 h-8 rounded-sm bg-brand-teal flex items-center justify-center">
-                        <div class="w-4 h-4 bg-brand-black rotate-45"></div>
-                    </div>
-                    <span class="text-xl font-bold tracking-widest">KYGA</span>
-                </div>
-                <div class="hidden md:flex space-x-8 text-sm font-medium text-brand-textSec">
-                    <a href="#features" class="hover:text-white transition-colors">Protocol</a>
-                    <a href="#gallery" class="hover:text-white transition-colors">Hardware</a>
-                    <a href="#tiers" class="hover:text-white transition-colors">Scale</a>
-                </div>
-                <div>
-                    <a href="#contact" class="hidden md:inline-flex px-5 py-2.5 text-sm font-medium border border-white/20 rounded-lg hover:border-brand-teal hover:text-brand-teal transition-all">
-                        Consultation
-                    </a>
-                </div>
-            </div>
-        </div>
-    </nav>
 
-    <!-- Hero Section -->
-    <header class="relative min-h-screen flex items-center justify-center pt-20">
-        <div class="absolute inset-0 bg-radial-glow pointer-events-none z-0"></div>
-        
-        <!-- Glowing Core -->
-        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-brand-teal rounded-full blur-[150px] opacity-10 z-0"></div>
-        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 border-[1px] border-brand-teal/20 rounded-full animate-ping z-0" style="animation-duration: 3s;"></div>
+<body>
 
-        <div class="relative z-10 text-center px-4 max-w-4xl mx-auto mt-10">
-            <div class="inline-flex items-center px-3 py-1 rounded-full border border-white/10 bg-white/5 backdrop-blur-md mb-8">
-                <span class="status-dot status-online"></span>
-                <span class="text-xs font-mono tracking-widest text-brand-teal uppercase">System Active</span>
-            </div>
-            <h1 class="text-5xl md:text-7xl font-semibold tracking-tight text-white mb-6">One Key. Absolute Control.</h1>
-            <p class="text-lg md:text-xl text-brand-textSec mb-10 max-w-2xl mx-auto leading-relaxed">
-                The unbreakable IoT ecosystem designed to unify every connected device—from seamless smart home routines to high-stakes museum security.
-            </p>
-            <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
-                <a href="#contact" class="glow-button w-full sm:w-auto inline-flex items-center justify-center px-8 py-4 bg-brand-teal text-brand-primary font-semibold rounded-lg text-lg">
-                    Unlock Your Environment
-                    <svg class="ml-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
-                </a>
-            </div>
-        </div>
-    </header>
+  <!-- ===== HEADER ===== -->
+  <header class="header" role="banner">
+    <div class="container header__inner">
+      <a href="/" aria-label="KYGA Home">
+        <img src="banner.svg" alt="KYGA Logo" class="header__logo">
+      </a>
 
-    <!-- The Cost of Complexity -->
-    <section id="complexity" class="py-24 bg-brand-surfaceLight border-y border-white/5 relative overflow-hidden">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-            <div class="text-center max-w-3xl mx-auto mb-16">
-                <h2 class="text-3xl md:text-4xl font-semibold mb-6">The Cost of Complexity</h2>
-                <p class="text-brand-textSec text-lg">True control isn't managing ten different apps—it's never needing to open one. End the chaos of fragmented systems.</p>
-            </div>
-            
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <!-- Pain Point 1 -->
-                <div class="glass-card p-8 rounded-xl relative overflow-hidden group">
-                    <div class="absolute top-0 right-0 w-32 h-32 bg-brand-crimson/10 rounded-full blur-[40px] -translate-y-1/2 translate-x-1/2 group-hover:bg-brand-crimson/20 transition-all"></div>
-                    <div class="w-12 h-12 border border-white/10 rounded-lg flex items-center justify-center mb-6 bg-brand-surface">
-                        <svg class="w-6 h-6 text-brand-textSec" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
-                    </div>
-                    <h3 class="text-xl font-medium mb-3 text-white">Fragile "DIY" Setups</h3>
-                    <p class="text-brand-textSec text-sm leading-relaxed">Consumer-grade hubs that fail under pressure, leaving your routines unreliable and disconnected from your reality.</p>
-                </div>
-                
-                <!-- Pain Point 2 -->
-                <div class="glass-card p-8 rounded-xl relative overflow-hidden group">
-                    <div class="absolute top-0 right-0 w-32 h-32 bg-brand-crimson/10 rounded-full blur-[40px] -translate-y-1/2 translate-x-1/2 group-hover:bg-brand-crimson/20 transition-all"></div>
-                    <div class="w-12 h-12 border border-white/10 rounded-lg flex items-center justify-center mb-6 bg-brand-surface">
-                        <svg class="w-6 h-6 text-brand-textSec" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
-                    </div>
-                    <h3 class="text-xl font-medium mb-3 text-white">Security Vulnerabilities</h3>
-                    <p class="text-brand-textSec text-sm leading-relaxed">Patchwork networks in high-value spaces that invite catastrophic breaches and unauthorized access to your private infrastructure.</p>
-                </div>
+      <nav aria-label="Main navigation">
+        <ul class="header__nav">
+          <li><a href="#features">Features</a></li>
+          <li><a href="#protocol">How It Works</a></li>
+          <li><a href="#testimonials">Testimonials</a></li>
+          <li><a href="#services">Services</a></li>
+        </ul>
+      </nav>
 
-                <!-- Pain Point 3 -->
-                <div class="glass-card p-8 rounded-xl relative overflow-hidden group">
-                    <div class="absolute top-0 right-0 w-32 h-32 bg-brand-crimson/10 rounded-full blur-[40px] -translate-y-1/2 translate-x-1/2 group-hover:bg-brand-crimson/20 transition-all"></div>
-                    <div class="w-12 h-12 border border-white/10 rounded-lg flex items-center justify-center mb-6 bg-brand-surface">
-                        <svg class="w-6 h-6 text-brand-textSec" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
-                    </div>
-                    <h3 class="text-xl font-medium mb-3 text-white">App Fatigue</h3>
-                    <p class="text-brand-textSec text-sm leading-relaxed">The exhausting reality of juggling a dozen disjointed platforms just to manage the lighting and locks in a single environment.</p>
-                </div>
-            </div>
-        </div>
+      <a href="#cta" class="header__cta" aria-label="Get Started with KYGA">Get Started</a>
+
+      <button class="header__menu-btn" aria-label="Open menu" aria-expanded="false" id="menuBtn">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+
+  </header>
+
+  <!-- Mobile nav overlay -->
+  <div class="mobile-nav" id="mobileNav" role="navigation" aria-label="Mobile navigation">
+    <a href="#features" class="mobile-nav-link">Features</a>
+    <a href="#protocol" class="mobile-nav-link">How It Works</a>
+    <a href="#testimonials" class="mobile-nav-link">Testimonials</a>
+    <a href="#services" class="mobile-nav-link">Services</a>
+    <a href="#cta" class="mobile-nav-link">Get Started</a>
+  </div>
+
+  <main>
+    <!-- ===== HERO ===== -->
+    <section class="hero" id="hero">
+      <div class="hero__grid" aria-hidden="true"></div>
+      <div class="hero__glow" aria-hidden="true"></div>
+      <div class="hero__orb hero__orb--blue" aria-hidden="true"></div>
+      <div class="hero__orb hero__orb--cyan" aria-hidden="true"></div>
+
+      <div class="hero__content">
+        <h1 class="hero__headline shimmer" id="heroHeadline">
+          Connect Anything.<br>Command Everything.
+        </h1>
+
+        <p class="hero__sub">
+          Dari <strong>Smart Home</strong> hingga <strong>Museum-Grade Security</strong> untuk seluruh ekosistem Anda.
+        </p>
+
+        <a href="#cta" class="hero__cta" aria-label="Automate Anything, Secure Everything">
+          Get Started
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <path d="M4 10h12m0 0l-4-4m4 4l-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+              stroke-linejoin="round" />
+          </svg>
+        </a>
+      </div>
+
+      <div class="hero__scroll" aria-hidden="true">
+        Scroll
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <path d="M8 3v10m0 0l-3-3m3 3l3-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+            stroke-linejoin="round" />
+        </svg>
+      </div>
     </section>
 
-    <!-- The KYGA Protocol -->
-    <section id="features" class="py-24">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="mb-16 md:w-2/3">
-                <span class="text-brand-teal font-mono text-sm tracking-widest uppercase block mb-4">Architecture</span>
-                <h2 class="text-3xl md:text-5xl font-semibold mb-6">The KYGA Protocol</h2>
-                <p class="text-brand-textSec text-lg">A streamlined architecture built for effortless command and uncompromising reliability.</p>
-            </div>
-
-            <div class="space-y-12">
-                <!-- Step 1 -->
-                <div class="flex flex-col md:flex-row border-t border-white/10 pt-12 items-start md:items-center gap-8">
-                    <div class="w-16 h-16 rounded-full border border-brand-teal text-brand-teal flex items-center justify-center font-mono text-xl shrink-0">01</div>
-                    <div class="md:w-1/3 shrink-0">
-                        <h3 class="text-2xl font-medium">Unified Integration</h3>
-                    </div>
-                    <div class="md:w-auto">
-                        <p class="text-brand-textSec leading-relaxed">Connect the hardware. We seamlessly bridge every device into a single, hardened grid—eliminating compatibility issues and exposed endpoints.</p>
-                    </div>
-                </div>
-
-                <!-- Step 2 -->
-                <div class="flex flex-col md:flex-row border-t border-white/10 pt-12 items-start md:items-center gap-8">
-                    <div class="w-16 h-16 rounded-full border border-brand-teal text-brand-teal flex items-center justify-center font-mono text-xl shrink-0">02</div>
-                    <div class="md:w-1/3 shrink-0">
-                        <h3 class="text-2xl font-medium">Intelligent Logic</h3>
-                    </div>
-                    <div class="md:w-auto">
-                        <p class="text-brand-textSec leading-relaxed">Set the "Automation Key." Define precise, infallible routines that anticipate the needs of your environment before you even step inside.</p>
-                    </div>
-                </div>
-
-                <!-- Step 3 -->
-                <div class="flex flex-col md:flex-row border-t border-white/10 pt-12 items-start md:items-center gap-8 border-b pb-12">
-                    <div class="w-16 h-16 rounded-full border border-brand-teal text-brand-teal flex items-center justify-center font-mono text-xl shrink-0">03</div>
-                    <div class="md:w-1/3 shrink-0">
-                        <h3 class="text-2xl font-medium">Absolute Command</h3>
-                    </div>
-                    <div class="md:w-auto">
-                        <p class="text-brand-textSec leading-relaxed">Monitor and secure. Experience zero-latency oversight and military-grade encryption that puts you in total control, anywhere in the world.</p>
-                    </div>
-                </div>
-            </div>
+    <!-- ===== PROBLEMS ===== -->
+    <section class="section problems" id="features">
+      <div class="container">
+        <div class="reveal">
+          <p class="section-label">Why KYGA</p>
+          <h2 class="section-title">Kenapa Harus KYGA?</h2>
+          <p class="section-subtitle">Solusi terintegrasi untuk setiap skenario otomasi.</p>
         </div>
+
+        <div class="problems__grid">
+          <!-- Card 1: Blue -->
+          <article class="card card--blue reveal" style="--delay: 0.1s">
+            <div class="card__icon" aria-hidden="true">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" />
+                <polyline points="9 22 9 12 15 12 15 22" />
+              </svg>
+            </div>
+            <h3 class="card__title">Kontrol Seluruh Rumah</h3>
+            <p class="card__text">Lupakan drama aplikasi yang kepisah-pisah. Semua dalam satu genggaman intuitif.</p>
+          </article>
+
+          <!-- Card 2: Cyan -->
+          <article class="card card--cyan reveal" style="--delay: 0.2s">
+            <div class="card__icon" aria-hidden="true">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+              </svg>
+            </div>
+            <h3 class="card__title">Deteksi Tamu Tidak Dikenal</h3>
+            <p class="card__text">Sistem proaktif bertenaga AI yang menjaga privasi dan keamanan Anda 24/7.</p>
+          </article>
+
+          <!-- Card 3: Emerald -->
+          <article class="card card--emerald reveal" style="--delay: 0.3s">
+            <div class="card__icon" aria-hidden="true">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+              </svg>
+            </div>
+            <h3 class="card__title">Efisiensi Energi 70%</h3>
+            <p class="card__text">Optimasi penggunaan daya secara cerdas yang memangkas tagihan listrik secara
+              signifikan.</p>
+          </article>
+
+          <!-- Card 4: Purple -->
+          <article class="card card--purple reveal" style="--delay: 0.15s">
+            <div class="card__icon" aria-hidden="true">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10" />
+                <polyline points="12 6 12 12 16 14" />
+              </svg>
+            </div>
+            <h3 class="card__title">Zero-Latency Response</h3>
+            <p class="card__text">Kecepatan eksekusi perintah instan untuk pengalaman otomasi tanpa hambatan.</p>
+          </article>
+
+          <!-- Card 5: Indigo -->
+          <article class="card card--indigo reveal" style="--delay: 0.25s">
+            <div class="card__icon" aria-hidden="true">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                <path d="M7 11V7a5 5 0 0110 0v4" />
+              </svg>
+            </div>
+            <h3 class="card__title">Museum-Grade Security</h3>
+            <p class="card__text">Protokol enkripsi tingkat tinggi yang dirancang untuk perlindungan aset paling
+              berharga Anda.</p>
+          </article>
+        </div>
+      </div>
     </section>
 
-    <!-- Hardware Gallery & Interconnectivity Map -->
-    <section id="gallery" class="py-24 bg-brand-surfaceLight border-t border-white/5 mx-2 rounded-[2rem] relative bg-grid">
-        <div class="absolute inset-0 bg-gradient-to-b from-transparent to-brand-surfaceLight/90 rounded-[2rem]"></div>
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-            <div class="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
-                <div>
-                    <span class="text-brand-teal font-mono text-sm tracking-widest uppercase block mb-4">Control Hub</span>
-                    <h2 class="text-3xl md:text-4xl font-semibold">Live Architecture Overlay</h2>
-                </div>
-                
-                <!-- Toggle UI (Visual Only for Static Page) -->
-                <div class="inline-flex bg-brand-black p-1 rounded-lg border border-white/10 backdrop-blur-md">
-                    <button class="px-6 py-2 rounded-md bg-white/10 text-white text-sm font-medium shadow-sm transition-all">Home</button>
-                    <button class="px-6 py-2 text-brand-textSec hover:text-white text-sm font-medium transition-all">Fortress</button>
-                </div>
-            </div>
-
-            <!-- Bento Grid Elements -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
-                <!-- Large Status Card -->
-                <div class="glass-card rounded-[1rem] p-6 lg:col-span-2 lg:row-span-2 flex flex-col justify-between min-h-[300px]">
-                    <div class="flex justify-between items-start">
-                        <div class="w-10 h-10 border border-brand-teal/30 bg-brand-teal/10 rounded-lg flex items-center justify-center text-brand-teal">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 002-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
-                        </div>
-                        <div class="font-mono text-xs flex items-center gap-2 border border-white/10 px-3 py-1.5 rounded-full bg-black/50">
-                            <span class="status-dot status-online"></span>
-                            CORE_NOMINAL
-                        </div>
-                    </div>
-                    <div>
-                        <div class="h-[100px] w-full border-b border-brand-teal/20 mb-4 flex items-end overflow-hidden pb-1">
-                            <!-- Fake graph representing network traffic -->
-                            <div class="w-1/6 h-full border-r border-brand-teal/20 bg-brand-teal/5"></div>
-                            <div class="w-1/6 h-3/4 border-r border-brand-teal/20 bg-brand-teal/10"></div>
-                            <div class="w-1/6 h-5/6 border-r border-brand-teal/20 bg-brand-teal/20"></div>
-                            <div class="w-1/6 h-1/2 border-r border-brand-teal/20 bg-brand-teal/10"></div>
-                            <div class="w-1/6 h-2/3 border-r border-brand-teal/20 bg-brand-teal/30"></div>
-                            <div class="w-1/6 h-full bg-brand-teal/40 self-end opacity-80" style="height: 90%;"></div>
-                        </div>
-                        <div class="text-sm text-brand-textSec uppercase tracking-wider mb-1">Central Hub</div>
-                        <h3 class="text-xl font-medium">KYGA Master Node</h3>
-                    </div>
-                </div>
-
-                <!-- Sensor Card 1 -->
-                <div class="glass-card rounded-[1rem] p-6 flex flex-col justify-between">
-                    <div class="flex justify-between items-start mb-12">
-                        <svg class="w-6 h-6 text-brand-textSec" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
-                        <div class="font-mono text-xs flex items-center gap-2">
-                            <span class="status-dot status-online"></span>
-                            ARMED
-                        </div>
-                    </div>
-                    <div>
-                        <div class="text-xs text-brand-textSec font-mono mb-1 text-right">IP: 10.0.4.15</div>
-                        <h3 class="text-sm font-medium">Entry Sensors</h3>
-                    </div>
-                </div>
-
-                <!-- Climate Card -->
-                <div class="glass-card rounded-[1rem] p-6 flex flex-col justify-between">
-                    <div class="flex justify-between items-start mb-12">
-                        <svg class="w-6 h-6 text-brand-textSec" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
-                        <div class="font-mono text-xs flex items-center gap-2">
-                            <span class="status-dot status-online"></span>
-                            ACTIVE
-                        </div>
-                    </div>
-                    <div>
-                        <div class="text-xs text-brand-textSec font-mono mb-1 text-right">68.5°F</div>
-                        <h3 class="text-sm font-medium">Climate Control</h3>
-                    </div>
-                </div>
-
-                <!-- Anomaly Card -->
-                <div class="glass-card rounded-[1rem] p-6 flex flex-col justify-between border-brand-crimson/30 lg:col-span-2 bg-gradient-to-br from-transparent to-brand-crimson/5">
-                    <div class="flex justify-between items-start mb-8">
-                        <svg class="w-6 h-6 text-brand-crimson animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
-                        <div class="font-mono text-xs flex items-center gap-2 bg-brand-crimson/10 text-brand-crimson border border-brand-crimson/20 px-2 py-1 rounded">
-                            <span class="status-dot status-danger"></span>
-                            ENCRYPTED_FEED
-                        </div>
-                    </div>
-                    <div class="flex items-end justify-between">
-                        <div>
-                            <h3 class="text-sm font-medium">Surveillance Net</h3>
-                        </div>
-                        <div class="font-mono text-xs text-brand-crimson">
-                            ZONE 4: SECURED
-                        </div>
-                    </div>
-                </div>
-            </div>
+    <!-- ===== PROTOCOL ===== -->
+    <section class="section" id="protocol">
+      <div class="container">
+        <div class="reveal">
+          <p class="section-label">How It Works</p>
+          <h2 class="section-title">Protokol KYGA</h2>
+          <p class="section-subtitle">Empat langkah menuju otomasi penuh.</p>
         </div>
+
+        <div class="protocol__path-container">
+          <div class="protocol__line">
+            <div class="protocol__pulse"></div>
+          </div>
+
+          <div class="protocol__steps">
+            <!-- Node 1 -->
+            <div class="step-node reveal" style="--delay: 0.1s">
+              <div class="step-node__circle">
+                <div class="step-node__number">01</div>
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <path
+                    d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z" />
+                </svg>
+              </div>
+              <h3 class="step-node__title">Universal Integration</h3>
+              <p class="step-node__text">Hubungkan semua hardware IoT ke dalam satu Core Hub terpadu.</p>
+            </div>
+
+            <!-- Node 2 -->
+            <div class="step-node reveal" style="--delay: 0.2s">
+              <div class="step-node__circle">
+                <div class="step-node__number">02</div>
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="3" />
+                  <path
+                    d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z" />
+                </svg>
+              </div>
+              <h3 class="step-node__title">Automation Logic</h3>
+              <p class="step-node__text">Sistem cerdas yang secara otomatis mengikuti rutinitas harian Anda.</p>
+            </div>
+
+            <!-- Node 3 -->
+            <div class="step-node reveal" style="--delay: 0.3s">
+              <div class="step-node__circle">
+                <div class="step-node__number">03</div>
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 20v-6M6 20V10M18 20V4" />
+                </svg>
+              </div>
+              <h3 class="step-node__title">Real-time Command</h3>
+              <p class="step-node__text">Kendali absolut dan monitoring real-time langsung dari genggaman.</p>
+            </div>
+
+            <!-- Node 4 -->
+            <div class="step-node reveal" style="--delay: 0.4s">
+              <div class="step-node__circle">
+                <div class="step-node__number">04</div>
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                  <path d="M7 11V7a5 5 0 0110 0v4" />
+                </svg>
+              </div>
+              <h3 class="step-node__title">Secure & Encrypt</h3>
+              <p class="step-node__text">Perlindungan data end-to-end dengan enkripsi militer.</p>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
 
-    <!-- Social Proof -->
-    <section class="py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 class="text-3xl font-semibold mb-12 text-center">Proven in the Most Demanding Environments</h2>
-        <div class="grid md:grid-cols-2 gap-8">
-            <div class="glass-card p-10 rounded-2xl">
-                <p class="text-lg text-brand-textSec leading-relaxed italic mb-8">
-                    "When you're managing a $40M property, 'glitchy' isn't an option. KYGA gave us an invisible, unbreakable infrastructure. It just works."
-                </p>
-                <div class="flex items-center gap-4 border-t border-white/10 pt-6">
-                    <div class="w-12 h-12 rounded-full bg-brand-surface border border-white/20 flex items-center justify-center">
-                        <span class="font-mono text-sm text-brand-teal">01</span>
-                    </div>
-                    <div>
-                        <p class="font-medium text-white tracking-wide uppercase text-sm">Luxury Estate Manager</p>
-                        <p class="text-xs text-brand-textSec">Beverly Hills, CA</p>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="glass-card p-10 rounded-2xl relative overflow-hidden line-glow">
-                <p class="text-lg text-brand-textSec leading-relaxed italic mb-8 relative z-10">
-                    "Our exhibits house priceless artifacts. KYGA unified our climate control, lighting, and entry sensors into a single, impenetrable fortress."
-                </p>
-                <div class="flex items-center gap-4 border-t border-white/10 pt-6 relative z-10">
-                    <div class="w-12 h-12 rounded-full bg-brand-surface border border-white/20 flex items-center justify-center">
-                        <span class="font-mono text-sm text-brand-teal">02</span>
-                    </div>
-                    <div>
-                        <p class="font-medium text-white tracking-wide uppercase text-sm">Chief of Museum Security</p>
-                        <p class="text-xs text-brand-textSec">Private Gallery Vault</p>
-                    </div>
-                </div>
-            </div>
+    <!-- ===== TESTIMONIALS ===== -->
+    <section class="section testimonials" id="testimonials">
+      <div class="container">
+        <div class="reveal">
+          <p class="section-label">Real Talk</p>
+          <h2 class="section-title">Apa Kata Mereka?</h2>
+          <p class="section-subtitle">Pengalaman nyata dari pengguna KYGA.</p>
         </div>
+
+        <div class="testimonials__grid">
+          <article class="testimonial reveal" style="--delay: 0.1s">
+            <blockquote class="testimonial__quote">
+              Gak pake ribet! Smart home jadi makin sat-set dan gampang dikontrol. Mantap banget lah KYGA.
+            </blockquote>
+            <div>
+              <p class="testimonial__author">Homeowner</p>
+              <p class="testimonial__role">Jakarta</p>
+            </div>
+          </article>
+
+          <article class="testimonial reveal" style="--delay: 0.2s">
+            <blockquote class="testimonial__quote">
+              Canggih banget, efisiensi kantor jadi makin gercep. Gak ada lagi drama aplikasi kepisah-pisah, semuanya
+              sinkron! Plus, hemat penggunaan listrik kantor turun drastis hampir 70%.
+            </blockquote>
+            <div>
+              <p class="testimonial__author">Office Manager</p>
+              <p class="testimonial__role">CBD Jakarta</p>
+            </div>
+          </article>
+
+          <article class="testimonial reveal" style="--delay: 0.3s">
+            <blockquote class="testimonial__quote">
+              Keamanan jadi jauh lebih solid. Yang paling keren, sistemnya bisa otomatis trigger alarm pas ada upaya
+              pencurian, jadi aset berharga makin aman terkendali.
+            </blockquote>
+            <div>
+              <p class="testimonial__author">Kepala Keamanan</p>
+              <p class="testimonial__role">Museum</p>
+            </div>
+          </article>
+        </div>
+      </div>
     </section>
 
-    <!-- Pricing / Tiers -->
-    <section id="tiers" class="py-24 border-t border-white/5 bg-brand-surfaceLight">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
-                <span class="text-brand-teal font-mono text-sm tracking-widest uppercase block mb-4">Architecture Scales</span>
-                <h2 class="text-3xl md:text-5xl font-semibold">Tailored to Your Scale</h2>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch">
-                <!-- Residential -->
-                <div class="glass-card rounded-[1rem] p-8 flex flex-col justify-between hover:border-white/30 transition-all border-white/10 relative">
-                    <div>
-                        <h3 class="text-2xl font-medium mb-4">Residential Tier</h3>
-                        <p class="text-brand-textSec mb-8 text-sm leading-relaxed">The uncompromising smart home foundation. Total lifestyle automation with zero frustration.</p>
-                        <ul class="space-y-4 mb-8 text-sm">
-                            <li class="flex items-start gap-3">
-                                <svg class="w-5 h-5 text-brand-teal shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                                <span>Seamless Smart Routines</span>
-                            </li>
-                            <li class="flex items-start gap-3">
-                                <svg class="w-5 h-5 text-brand-teal shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                                <span>Unified App Interface</span>
-                            </li>
-                            <li class="flex items-start gap-3">
-                                <svg class="w-5 h-5 text-brand-teal shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                                <span>End-to-End Encryption</span>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-
-                <!-- Commercial -->
-                <div class="glass-card rounded-[1rem] p-8 flex flex-col justify-between border-brand-teal/40 bg-gradient-to-b from-brand-teal/5 to-transparent relative mt-0 md:-mt-4 mb-0 md:-mb-4 shadow-[0_0_30px_rgba(0,229,255,0.05)]">
-                    <div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-brand-teal text-brand-primary text-xs font-bold uppercase tracking-widest px-4 py-1.5 rounded-full">
-                        Recommended
-                    </div>
-                    <div>
-                        <h3 class="text-2xl font-medium mb-4">Commercial Tier</h3>
-                        <p class="text-brand-textSec mb-8 text-sm leading-relaxed">Enhanced IoT oversight and energy management engineered for scaling offices and premium retail spaces.</p>
-                        <ul class="space-y-4 mb-8 text-sm">
-                            <li class="flex items-start gap-3">
-                                <svg class="w-5 h-5 text-brand-teal shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                                <span>Multi-Zone Oversight</span>
-                            </li>
-                            <li class="flex items-start gap-3">
-                                <svg class="w-5 h-5 text-brand-teal shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                                <span>Automated Energy Management</span>
-                            </li>
-                            <li class="flex items-start gap-3">
-                                <svg class="w-5 h-5 text-brand-teal shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                                <span>Role-Based Access Control</span>
-                            </li>
-                            <li class="flex items-start gap-3">
-                                <svg class="w-5 h-5 text-brand-teal shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                                <span>Fleet & Hub Management</span>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-
-                <!-- Fortress -->
-                <div class="bg-brand-black border-2 border-[#333333] rounded-sm p-8 flex flex-col justify-between relative overflow-hidden">
-                    <!-- Industrial warning accent line -->
-                    <div class="absolute top-0 left-0 w-full h-1 bg-brand-amber"></div>
-                    <div>
-                        <div class="flex items-center gap-2 mb-4 text-brand-amber">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
-                            <h3 class="text-2xl font-mono font-medium uppercase tracking-wider text-white">Fortress Tier</h3>
-                        </div>
-                        <p class="text-brand-textSec mb-8 text-sm leading-relaxed">Bespoke, high-level security architecture and dedicated localized command centers built for museums, galleries, and private vaults.</p>
-                        <ul class="space-y-4 mb-8 text-sm font-mono text-brand-textSec">
-                            <li class="flex items-start gap-3">
-                                <svg class="w-5 h-5 text-brand-amber shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                                <span>AIR-GAPPED OPERATION CAPABLE</span>
-                            </li>
-                            <li class="flex items-start gap-3">
-                                <svg class="w-5 h-5 text-brand-amber shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                                <span>LOCALIZED OFFLINE COMMAND SERVER</span>
-                            </li>
-                            <li class="flex items-start gap-3">
-                                <svg class="w-5 h-5 text-brand-amber shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                                <span>MILITARY-GRADE ENCRYPTION STANDARDS</span>
-                            </li>
-                            <li class="flex items-start gap-3">
-                                <svg class="w-5 h-5 text-brand-amber shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                                <span>24/7 DEDICATED RESPONSE PROTOCOL</span>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
+    <!-- ===== SERVICES ===== -->
+    <section class="section" id="services">
+      <div class="container">
+        <div class="reveal">
+          <p class="section-label">Services</p>
+          <h2 class="section-title">Solusi untuk Setiap Skala</h2>
+          <p class="section-subtitle">Dari rumah pintar hingga keamanan museum-grade.</p>
         </div>
+
+        <div class="services__grid">
+          <!-- Residential -->
+          <article class="service service--residential reveal" style="--delay: 0.1s">
+            <div class="service__icon" aria-hidden="true">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" />
+              </svg>
+            </div>
+            <span class="service__badge">Residential</span>
+            <h3 class="service__title">Smart Home Foundation</h3>
+            <p class="service__text">Automasi lampu, suhu, dan perangkat rumah tangga dengan sensor intuitif untuk
+              kenyamanan maksimal.</p>
+            <a href="#cta" class="service__cta-link">Learn more <svg width="16" height="16" viewBox="0 0 24 24"
+                fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M5 12h14m-7-7l7 7-7 7" />
+              </svg></a>
+          </article>
+
+          <!-- Commercial -->
+          <article class="service service--commercial reveal" style="--delay: 0.2s">
+            <div class="service__icon" aria-hidden="true">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="3" width="20" height="14" rx="2" ry="2" />
+                <line x1="8" y1="21" x2="16" y2="21" />
+                <line x1="12" y1="17" x2="12" y2="21" />
+              </svg>
+            </div>
+            <span class="service__badge">Commercial</span>
+            <h3 class="service__title">Business Ecosystem</h3>
+            <p class="service__text">Pusatkan kontrol operasional kantor dan ritel untuk efisiensi energi dan
+              produktivitas tim.</p>
+            <a href="#cta" class="service__cta-link">Explore scale <svg width="16" height="16" viewBox="0 0 24 24"
+                fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M5 12h14m-7-7l7 7-7 7" />
+              </svg></a>
+          </article>
+
+          <!-- Fortress -->
+          <article class="service service--fortress reveal" style="--delay: 0.3s">
+            <div class="service__icon" aria-hidden="true">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+              </svg>
+            </div>
+            <span class="service__badge">Fortress</span>
+            <h3 class="service__title">High-Security Archives</h3>
+            <p class="service__text">Solusi khusus untuk museum, galeri, dan bunker data. Keamanan berlapis dengan
+              protokol militer dan deteksi intrusi tercanggih di dunia.</p>
+            <a href="#cta" class="service__cta-link">Consult security <svg width="16" height="16" viewBox="0 0 24 24"
+                fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M5 12h14m-7-7l7 7-7 7" />
+              </svg></a>
+          </article>
+        </div>
+      </div>
     </section>
 
-    <!-- Final Command / CTA -->
-    <section id="contact" class="py-32 relative">
-        <div class="absolute inset-0 bg-radial-glow pointer-events-none z-0"></div>
-        <div class="relative z-10 text-center max-w-4xl mx-auto px-4">
-            <h2 class="text-4xl md:text-5xl border-b border-brand-teal/30 pb-8 mb-8 font-semibold tracking-tight">Complexity is a liability.<br><span class="text-brand-teal">Command is a choice.</span></h2>
-            <p class="text-xl text-brand-textSec mb-12">Secure the only unified ecosystem trusted by elite estates and high-value institutions.</p>
-            <a href="#" class="glow-button inline-flex items-center justify-center px-10 py-5 bg-brand-teal text-brand-primary font-semibold rounded-lg text-lg hover:scale-105 transition-transform duration-300">
-                Schedule Your Confidential Consultation
-            </a>
+    <!-- ===== FINAL CTA ===== -->
+    <section class="section cta-section cta__grid" id="cta">
+      <div class="hero__orb hero__orb--blue" aria-hidden="true"></div>
+      <div class="hero__orb hero__orb--cyan" aria-hidden="true"></div>
+      <div class="container">
+        <div class="reveal">
+          <p class="section-label">Take Action</p>
+          <h2 class="section-title">Jangan Biarkan Sistem Lama Menghambat Keamanan Anda.</h2>
+          <p class="section-subtitle">Upgrade ke KYGA sekarang.</p>
         </div>
+
+        <a href="#" class="cta-section__btn reveal" style="--delay: 0.2s"
+          aria-label="Automate Anything, Secure Everything">
+          Automate Anything, Secure Everything
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <path d="M4 10h12m0 0l-4-4m4 4l-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+              stroke-linejoin="round" />
+          </svg>
+        </a>
+      </div>
     </section>
+  </main>
 
-    <!-- Footer -->
-    <footer class="border-t border-white/10 bg-brand-surface py-12 text-sm text-brand-textSec">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-6">
-            <div class="flex items-center gap-2 border border-white/10 px-3 py-1 bg-black rounded">
-                <span class="status-dot status-online"></span>
-                <span class="font-mono text-xs tracking-wider">KYGA_SECURE_NODE</span>
-            </div>
-            
-            <p>&copy; 2026 KYGA Systems. All rights reserved.</p>
-            
-            <div class="flex gap-6">
-                <a href="#" class="hover:text-white transition-colors">Privacy Policy</a>
-                <a href="#" class="hover:text-white transition-colors">Terms of Service</a>
-            </div>
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer" role="contentinfo">
+    <div class="container">
+      <div class="footer__inner">
+        <div class="footer__brand">
+          <img src="banner_logo.svg" alt="KYGA Logo" style="height: 64px; width: auto;">
+          <p>Key to Global Automation. Dari Smart Home hingga Museum-Grade Security.</p>
         </div>
-    </footer>
 
+        <div>
+          <h4 class="footer__col-title">Product</h4>
+          <ul class="footer__links">
+            <li><a href="#features">Features</a></li>
+            <li><a href="#protocol">How It Works</a></li>
+            <li><a href="#services">Services</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="footer__col-title">Company</h4>
+          <ul class="footer__links">
+            <li><a href="#">About</a></li>
+            <li><a href="#">Contact</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer__bottom">
+        <p>&copy; 2026 KYGA. All rights reserved.</p>
+        <div class="footer__socials">
+          <a href="#" aria-label="Instagram">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+              stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+              <path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z" />
+              <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+            </svg>
+          </a>
+          <a href="#" aria-label="LinkedIn">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+              stroke-linecap="round" stroke-linejoin="round">
+              <path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z" />
+              <rect x="2" y="9" width="4" height="12" />
+              <circle cx="4" cy="4" r="2" />
+            </svg>
+          </a>
+          <a href="#" aria-label="Twitter / X">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+              stroke-linecap="round" stroke-linejoin="round">
+              <path
+                d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z" />
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+
+  <!-- ===== SCRIPTS ===== -->
+  <script>
+    /* --- Mobile Menu Toggle --- */
+    const menuBtn = document.getElementById('menuBtn');
+    const mobileNav = document.getElementById('mobileNav');
+
+    menuBtn.addEventListener('click', () => {
+      const isOpen = mobileNav.classList.toggle('open');
+      menuBtn.setAttribute('aria-expanded', isOpen);
+      document.body.style.overflow = isOpen ? 'hidden' : '';
+    });
+
+    // Close mobile nav on link click
+    mobileNav.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        mobileNav.classList.remove('open');
+        menuBtn.setAttribute('aria-expanded', 'false');
+        document.body.style.overflow = '';
+      });
+    });
+
+    // Close on resize to desktop
+    window.addEventListener('resize', () => {
+      if (window.innerWidth >= 768 && mobileNav.classList.contains('open')) {
+        mobileNav.classList.remove('open');
+        menuBtn.setAttribute('aria-expanded', 'false');
+        document.body.style.overflow = '';
+      }
+    });
+
+
+    /* --- Word-by-word Reveal for Hero Headline --- */
+    (function () {
+      const headline = document.getElementById('heroHeadline');
+      if (!headline) return;
+
+      const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const html = headline.innerHTML;
+
+      // Split lines on <br>
+      const lines = html.split(/<br\s*\/?>/i);
+      let wordIndex = 0;
+
+      headline.innerHTML = lines.map(line => {
+        const words = line.trim().split(/\s+/).filter(Boolean);
+        return words.map(word => {
+          const delay = prefersReduced ? 0 : (wordIndex * 0.12);
+          wordIndex++;
+          return `<span class="word" style="animation-delay: ${delay}s">${word}</span>`;
+        }).join(' ');
+      }).join('<br>');
+    })();
+
+
+    /* --- Scroll Reveal (IntersectionObserver) --- */
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, {
+      threshold: 0.15,
+      rootMargin: '0px 0px -40px 0px'
+    });
+
+    document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+
+    /* --- Magnetic Hover on Hero CTA --- */
+    const heroCta = document.querySelector('.hero__cta');
+    if (heroCta) {
+      heroCta.addEventListener('mousemove', (e) => {
+        const rect = heroCta.getBoundingClientRect();
+        const x = e.clientX - rect.left - rect.width / 2;
+        const y = e.clientY - rect.top - rect.height / 2;
+        heroCta.style.transform = `translate(${x * 0.15}px, ${y * 0.15}px)`;
+      });
+
+      heroCta.addEventListener('mouseleave', () => {
+        heroCta.style.transform = 'translate(0, 0)';
+      });
+    }
+
+
+    /* --- Subtle Parallax on Hero Orbs --- */
+    const hero = document.querySelector('.hero');
+    const orbs = document.querySelectorAll('.hero__orb');
+
+    if (hero && orbs.length) {
+      hero.addEventListener('mousemove', (e) => {
+        const rect = hero.getBoundingClientRect();
+        const x = (e.clientX - rect.left) / rect.width - 0.5;
+        const y = (e.clientY - rect.top) / rect.height - 0.5;
+
+        orbs.forEach((orb, i) => {
+          const factor = (i + 1) * 20;
+          orb.style.transform = `translate(${x * factor}px, ${y * factor}px)`;
+        });
+      });
+    }
+
+
+    /* --- Header background change on scroll --- */
+    const header = document.querySelector('.header');
+    let ticking = false;
+
+    window.addEventListener('scroll', () => {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          if (window.scrollY > 50) {
+            header.style.background = 'rgba(255, 255, 255, 0.95)';
+          } else {
+            header.style.background = 'rgba(255, 255, 255, 0.8)';
+          }
+          ticking = false;
+        });
+        ticking = true;
+      }
+    });
+  </script>
 </body>
+
 </html>
