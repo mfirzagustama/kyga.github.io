@@ -81,7 +81,6 @@
       background: none;
     }
 
-    /* Focus ring */
     :focus-visible {
       outline: 2px solid var(--accent);
       outline-offset: 3px;
@@ -150,10 +149,19 @@
         transition: none;
       }
 
-      .hero__headline span {
+      .hero__headline {
         opacity: 1 !important;
         transform: none !important;
-        animation: none !important;
+      }
+
+      .hero__sub {
+        opacity: 1 !important;
+        transform: none !important;
+      }
+
+      .hero__cta {
+        opacity: 1 !important;
+        transform: none !important;
       }
 
       .hero__grid {
@@ -217,7 +225,6 @@
 
     .header__cta {
       display: none;
-      /* Hidden on mobile */
       font-size: 14px;
       font-weight: 500;
       padding: 8px 20px;
@@ -232,7 +239,6 @@
       transform: translateY(-1px);
     }
 
-    /* Mobile menu */
     .header__menu-btn {
       display: flex;
       flex-direction: column;
@@ -266,7 +272,6 @@
       right: 0;
       bottom: 0;
       padding-top: 64px;
-      /* Space for the header */
       background: rgba(255, 255, 255, 0.98);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
@@ -276,7 +281,6 @@
       justify-content: center;
       gap: 32px;
       z-index: 90;
-      /* Lower than header (100) */
       opacity: 0;
       pointer-events: none;
       transition: opacity var(--transition), transform var(--transition);
@@ -307,7 +311,6 @@
       padding-top: 64px;
     }
 
-    /* Animated grid background */
     .hero__grid {
       position: absolute;
       inset: 0;
@@ -319,16 +322,10 @@
     }
 
     @keyframes gridShift {
-      0% {
-        background-position: 0 0;
-      }
-
-      100% {
-        background-position: 60px 60px;
-      }
+      0% { background-position: 0 0; }
+      100% { background-position: 60px 60px; }
     }
 
-    /* Radial glow */
     .hero__glow {
       position: absolute;
       top: 50%;
@@ -340,7 +337,6 @@
       pointer-events: none;
     }
 
-    /* Floating orbs */
     .hero__orb {
       position: absolute;
       border-radius: 50%;
@@ -369,19 +365,9 @@
     }
 
     @keyframes orbFloat {
-
-      0%,
-      100% {
-        transform: translate(0, 0) scale(1);
-      }
-
-      33% {
-        transform: translate(30px, -20px) scale(1.05);
-      }
-
-      66% {
-        transform: translate(-20px, 15px) scale(0.95);
-      }
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      33% { transform: translate(30px, -20px) scale(1.05); }
+      66% { transform: translate(-20px, 15px) scale(0.95); }
     }
 
     .hero__content {
@@ -394,58 +380,28 @@
     .hero__headline {
       font-size: clamp(36px, 8vw, 72px);
       font-weight: 700;
-      line-height: 1.2;
+      line-height: 1.1;
       letter-spacing: -0.03em;
       margin-bottom: 24px;
-    }
-
-    .hero__headline .word {
-      display: inline-block;
-      background: linear-gradient(90deg, var(--text) 0%, var(--text) 40%, var(--accent) 50%, var(--text) 60%, var(--text) 100%);
-      background-size: 230% 100%;
-      -webkit-background-clip: text;
-      background-clip: text;
-      -webkit-text-fill-color: transparent;
-      opacity: 0;
-      transform: translateY(20px) translateX(-8px);
-      animation: wordReveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards, shimmerMove 5s ease-in-out infinite;
-      animation-delay: var(--word-delay, 0s), 0s;
-    }
-
-    @keyframes wordReveal {
-      to {
-        opacity: 1;
-        transform: translateY(0) translateX(0);
-      }
-    }
-
-    /* Shimmer on headline */
-    .shimmer {
+      /* Shimmer gradient text */
       background: linear-gradient(90deg,
-          var(--text) 0%,
-          var(--text) 40%,
-          var(--accent) 50%,
-          var(--text) 60%,
-          var(--text) 100%);
+        var(--text) 0%,
+        var(--text) 40%,
+        var(--accent) 50%,
+        var(--text) 60%,
+        var(--text) 100%);
       background-size: 200% 100%;
-
-      /* Critical: The parent must define the clip-path context */
       -webkit-background-clip: text;
       background-clip: text;
       -webkit-text-fill-color: transparent;
-
       animation: shimmerMove 5s ease-in-out infinite;
-      /* Slowed down for "premium" feel */
+      /* GSAP will handle entrance — start invisible */
+      opacity: 0;
     }
 
     @keyframes shimmerMove {
-      0% {
-        background-position: 120% 0;
-      }
-
-      100% {
-        background-position: -80% 0;
-      }
+      0% { background-position: 120% 0; }
+      100% { background-position: -80% 0; }
     }
 
     .hero__sub {
@@ -456,6 +412,7 @@
       max-width: 600px;
       margin-left: auto;
       margin-right: auto;
+      opacity: 0;
     }
 
     .hero__sub strong {
@@ -476,6 +433,7 @@
       box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
       transition: transform var(--transition), box-shadow var(--transition);
       position: relative;
+      opacity: 0;
     }
 
     .hero__cta:hover {
@@ -495,7 +453,6 @@
       transform: translateX(3px);
     }
 
-    /* Scroll indicator */
     .hero__scroll {
       position: absolute;
       bottom: 32px;
@@ -514,23 +471,11 @@
     }
 
     @keyframes scrollBounce {
-
-      0%,
-      100% {
-        transform: translateX(-50%) translateY(0);
-      }
-
-      50% {
-        transform: translateX(-50%) translateY(6px);
-      }
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(6px); }
     }
 
     /* ===== PROBLEM SECTION ===== */
-    .problems {
-      background: var(--surface);
-    }
-
-    /* ===== PROBLEM SECTION (Unique Glows) ===== */
     .problems {
       background: var(--surface);
     }
@@ -607,31 +552,11 @@
       transform: scale(1.1) rotate(5deg);
     }
 
-    /* Unique Colors */
-    .card--blue {
-      --glow-color: #0070F3;
-      --glow-rgb: 0, 112, 243;
-    }
-
-    .card--cyan {
-      --glow-color: #00DFD8;
-      --glow-rgb: 0, 223, 216;
-    }
-
-    .card--emerald {
-      --glow-color: #10B981;
-      --glow-rgb: 16, 185, 129;
-    }
-
-    .card--purple {
-      --glow-color: #7C3AED;
-      --glow-rgb: 124, 58, 237;
-    }
-
-    .card--indigo {
-      --glow-color: #4F46E5;
-      --glow-rgb: 79, 70, 229;
-    }
+    .card--blue { --glow-color: #0070F3; --glow-rgb: 0, 112, 243; }
+    .card--cyan { --glow-color: #00DFD8; --glow-rgb: 0, 223, 216; }
+    .card--emerald { --glow-color: #10B981; --glow-rgb: 16, 185, 129; }
+    .card--purple { --glow-color: #7C3AED; --glow-rgb: 124, 58, 237; }
+    .card--indigo { --glow-color: #4F46E5; --glow-rgb: 79, 70, 229; }
 
     .card__title {
       font-size: 18px;
@@ -639,7 +564,7 @@
       margin-bottom: 12px;
     }
 
-    /* ===== PROTOCOL (Pulse Path) ===== */
+    /* ===== PROTOCOL ===== */
     .protocol {
       position: relative;
       overflow: hidden;
@@ -680,13 +605,8 @@
     }
 
     @keyframes pulsePath {
-      0% {
-        left: -20%;
-      }
-
-      100% {
-        left: 120%;
-      }
+      0% { left: -20%; }
+      100% { left: 120%; }
     }
 
     .protocol__steps {
@@ -829,7 +749,6 @@
     }
 
     /* ===== SERVICES ===== */
-    /* ===== SERVICES (Showcase Bento) ===== */
     .services__grid {
       display: grid;
       gap: 20px;
@@ -842,17 +761,9 @@
         grid-template-rows: repeat(2, auto);
       }
 
-      .service--residential {
-        grid-row: 1 / 2;
-      }
-
-      .service--commercial {
-        grid-row: 2 / 3;
-      }
-
-      .service--fortress {
-        grid-row: 1 / 3;
-      }
+      .service--residential { grid-row: 1 / 2; }
+      .service--commercial { grid-row: 2 / 3; }
+      .service--fortress { grid-row: 1 / 3; }
     }
 
     @media (min-width: 1024px) {
@@ -891,19 +802,9 @@
       box-shadow: 0 30px 60px rgba(0, 112, 243, 0.15);
     }
 
-    .service--fortress .service__text {
-      color: rgba(255, 255, 255, 0.6);
-    }
-
-    .service--fortress .service__badge {
-      background: rgba(255, 255, 255, 0.1);
-      color: var(--glow);
-    }
-
-    .service--fortress .service__icon {
-      background: rgba(0, 223, 216, 0.15);
-      color: var(--glow);
-    }
+    .service--fortress .service__text { color: rgba(255, 255, 255, 0.6); }
+    .service--fortress .service__badge { background: rgba(255, 255, 255, 0.1); color: var(--glow); }
+    .service--fortress .service__icon { background: rgba(0, 223, 216, 0.15); color: var(--glow); }
 
     .service__badge {
       display: inline-block;
@@ -926,9 +827,7 @@
       line-height: 1.2;
     }
 
-    .service--fortress .service__title {
-      font-size: 32px;
-    }
+    .service--fortress .service__title { font-size: 32px; }
 
     .service__text {
       font-size: 16px;
@@ -960,17 +859,11 @@
       transition: gap var(--transition);
     }
 
-    .service--fortress .service__cta-link {
-      color: var(--glow);
-    }
-
-    .service__cta-link:hover {
-      gap: 12px;
-    }
+    .service--fortress .service__cta-link { color: var(--glow); }
+    .service__cta-link:hover { gap: 12px; }
 
     /* ===== FINAL CTA ===== */
     .cta-section {
-      /* background: var(--text); */
       color: var(--bg);
       text-align: center;
       position: relative;
@@ -988,18 +881,9 @@
       animation: gridShift 20s linear infinite;
     }
 
-    .cta-section .section-label {
-      color: var(--glow);
-    }
-
-    .cta-section .section-title {
-      color: var(--bg);
-    }
-
-    .cta-section .section-subtitle {
-      color: rgba(255, 255, 255, 0.6);
-      margin: 0 auto 40px;
-    }
+    .cta-section .section-label { color: var(--glow); }
+    .cta-section .section-title { color: var(--bg); }
+    .cta-section .section-subtitle { color: rgba(255, 255, 255, 0.6); margin: 0 auto 40px; }
 
     .cta-section__btn {
       display: inline-flex;
@@ -1019,7 +903,6 @@
       box-shadow: 0 8px 25px rgba(255, 255, 255, 0.15);
     }
 
-    /* Gradient line on top */
     .cta-section::before {
       content: '';
       position: absolute;
@@ -1078,9 +961,7 @@
       transition: color var(--transition);
     }
 
-    .footer__links a:hover {
-      color: var(--text);
-    }
+    .footer__links a:hover { color: var(--text); }
 
     .footer__bottom {
       margin-top: 40px;
@@ -1105,9 +986,7 @@
       transition: color var(--transition);
     }
 
-    .footer__socials a:hover {
-      color: var(--text);
-    }
+    .footer__socials a:hover { color: var(--text); }
   </style>
 </head>
 
@@ -1135,7 +1014,6 @@
         <span></span><span></span><span></span>
       </button>
     </div>
-
   </header>
 
   <!-- Mobile nav overlay -->
@@ -1192,7 +1070,6 @@
         </div>
 
         <div class="problems__grid">
-          <!-- Card 1: Blue -->
           <article class="card card--blue reveal" style="--delay: 0.1s">
             <div class="card__icon" aria-hidden="true">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -1205,7 +1082,6 @@
             <p class="card__text">Lupakan drama aplikasi yang kepisah-pisah. Semua dalam satu genggaman intuitif.</p>
           </article>
 
-          <!-- Card 2: Cyan -->
           <article class="card card--cyan reveal" style="--delay: 0.2s">
             <div class="card__icon" aria-hidden="true">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -1217,7 +1093,6 @@
             <p class="card__text">Sistem proaktif bertenaga AI yang menjaga privasi dan keamanan Anda 24/7.</p>
           </article>
 
-          <!-- Card 3: Emerald -->
           <article class="card card--emerald reveal" style="--delay: 0.3s">
             <div class="card__icon" aria-hidden="true">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -1226,11 +1101,9 @@
               </svg>
             </div>
             <h3 class="card__title">Efisiensi Energi 70%</h3>
-            <p class="card__text">Optimasi penggunaan daya secara cerdas yang memangkas tagihan listrik secara
-              signifikan.</p>
+            <p class="card__text">Optimasi penggunaan daya secara cerdas yang memangkas tagihan listrik secara signifikan.</p>
           </article>
 
-          <!-- Card 4: Purple -->
           <article class="card card--purple reveal" style="--delay: 0.15s">
             <div class="card__icon" aria-hidden="true">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -1243,7 +1116,6 @@
             <p class="card__text">Kecepatan eksekusi perintah instan untuk pengalaman otomasi tanpa hambatan.</p>
           </article>
 
-          <!-- Card 5: Indigo -->
           <article class="card card--indigo reveal" style="--delay: 0.25s">
             <div class="card__icon" aria-hidden="true">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -1253,8 +1125,7 @@
               </svg>
             </div>
             <h3 class="card__title">Museum-Grade Security</h3>
-            <p class="card__text">Protokol enkripsi tingkat tinggi yang dirancang untuk perlindungan aset paling
-              berharga Anda.</p>
+            <p class="card__text">Protokol enkripsi tingkat tinggi yang dirancang untuk perlindungan aset paling berharga Anda.</p>
           </article>
         </div>
       </div>
@@ -1275,36 +1146,31 @@
           </div>
 
           <div class="protocol__steps">
-            <!-- Node 1 -->
             <div class="step-node reveal" style="--delay: 0.1s">
               <div class="step-node__circle">
                 <div class="step-node__number">01</div>
                 <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                   stroke-linecap="round" stroke-linejoin="round">
-                  <path
-                    d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z" />
+                  <path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z" />
                 </svg>
               </div>
               <h3 class="step-node__title">Universal Integration</h3>
               <p class="step-node__text">Hubungkan semua hardware IoT ke dalam satu Core Hub terpadu.</p>
             </div>
 
-            <!-- Node 2 -->
             <div class="step-node reveal" style="--delay: 0.2s">
               <div class="step-node__circle">
                 <div class="step-node__number">02</div>
                 <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                   stroke-linecap="round" stroke-linejoin="round">
                   <circle cx="12" cy="12" r="3" />
-                  <path
-                    d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z" />
+                  <path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z" />
                 </svg>
               </div>
               <h3 class="step-node__title">Automation Logic</h3>
               <p class="step-node__text">Sistem cerdas yang secara otomatis mengikuti rutinitas harian Anda.</p>
             </div>
 
-            <!-- Node 3 -->
             <div class="step-node reveal" style="--delay: 0.3s">
               <div class="step-node__circle">
                 <div class="step-node__number">03</div>
@@ -1317,7 +1183,6 @@
               <p class="step-node__text">Kendali absolut dan monitoring real-time langsung dari genggaman.</p>
             </div>
 
-            <!-- Node 4 -->
             <div class="step-node reveal" style="--delay: 0.4s">
               <div class="step-node__circle">
                 <div class="step-node__number">04</div>
@@ -1390,7 +1255,6 @@
         </div>
 
         <div class="services__grid">
-          <!-- Residential -->
           <article class="service service--residential reveal" style="--delay: 0.1s">
             <div class="service__icon" aria-hidden="true">
               <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -1400,15 +1264,13 @@
             </div>
             <span class="service__badge">Residential</span>
             <h3 class="service__title">Smart Home Foundation</h3>
-            <p class="service__text">Automasi lampu, suhu, dan perangkat rumah tangga dengan sensor intuitif untuk
-              kenyamanan maksimal.</p>
+            <p class="service__text">Automasi lampu, suhu, dan perangkat rumah tangga dengan sensor intuitif untuk kenyamanan maksimal.</p>
             <a href="#cta" class="service__cta-link">Learn more <svg width="16" height="16" viewBox="0 0 24 24"
                 fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M5 12h14m-7-7l7 7-7 7" />
               </svg></a>
           </article>
 
-          <!-- Commercial -->
           <article class="service service--commercial reveal" style="--delay: 0.2s">
             <div class="service__icon" aria-hidden="true">
               <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -1420,15 +1282,13 @@
             </div>
             <span class="service__badge">Commercial</span>
             <h3 class="service__title">Business Ecosystem</h3>
-            <p class="service__text">Pusatkan kontrol operasional kantor dan ritel untuk efisiensi energi dan
-              produktivitas tim.</p>
+            <p class="service__text">Pusatkan kontrol operasional kantor dan ritel untuk efisiensi energi dan produktivitas tim.</p>
             <a href="#cta" class="service__cta-link">Explore scale <svg width="16" height="16" viewBox="0 0 24 24"
                 fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M5 12h14m-7-7l7 7-7 7" />
               </svg></a>
           </article>
 
-          <!-- Fortress -->
           <article class="service service--fortress reveal" style="--delay: 0.3s">
             <div class="service__icon" aria-hidden="true">
               <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -1438,8 +1298,7 @@
             </div>
             <span class="service__badge">Fortress</span>
             <h3 class="service__title">High-Security Archives</h3>
-            <p class="service__text">Solusi khusus untuk museum, galeri, dan bunker data. Keamanan berlapis dengan
-              protokol militer dan deteksi intrusi tercanggih di dunia.</p>
+            <p class="service__text">Solusi khusus untuk museum, galeri, dan bunker data. Keamanan berlapis dengan protokol militer dan deteksi intrusi tercanggih di dunia.</p>
             <a href="#cta" class="service__cta-link">Consult security <svg width="16" height="16" viewBox="0 0 24 24"
                 fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M5 12h14m-7-7l7 7-7 7" />
@@ -1522,8 +1381,7 @@
           <a href="#" aria-label="Twitter / X">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
               stroke-linecap="round" stroke-linejoin="round">
-              <path
-                d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z" />
+              <path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z" />
             </svg>
           </a>
         </div>
@@ -1531,6 +1389,8 @@
     </div>
   </footer>
 
+  <!-- ===== GSAP ===== -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 
   <!-- ===== SCRIPTS ===== -->
   <script>
@@ -1544,7 +1404,6 @@
       document.body.style.overflow = isOpen ? 'hidden' : '';
     });
 
-    // Close mobile nav on link click
     mobileNav.querySelectorAll('a').forEach(link => {
       link.addEventListener('click', () => {
         mobileNav.classList.remove('open');
@@ -1553,7 +1412,6 @@
       });
     });
 
-    // Close on resize to desktop
     window.addEventListener('resize', () => {
       if (window.innerWidth >= 768 && mobileNav.classList.contains('open')) {
         mobileNav.classList.remove('open');
@@ -1563,27 +1421,42 @@
     });
 
 
-    /* --- Word-by-word Reveal for Hero Headline --- */
-    (function () {
-      const headline = document.getElementById('heroHeadline');
-      if (!headline) return;
+    /* --- GSAP Hero Entrance Animations --- */
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-      const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      const html = headline.innerHTML;
+    if (!prefersReduced) {
+      gsap.to(".hero__headline", {
+        y: 0,
+        opacity: 1,
+        duration: 0.9,
+        ease: "power3.out",
+        delay: 0.2
+      });
 
-      // Split lines on <br>
-      const lines = html.split(/<br\s*\/?>/i);
-      let wordIndex = 0;
+      gsap.to(".hero__sub", {
+        y: 0,
+        opacity: 1,
+        duration: 0.9,
+        ease: "power3.out",
+        delay: 0.45
+      });
 
-      headline.innerHTML = lines.map(line => {
-        const words = line.trim().split(/\s+/).filter(Boolean);
-        return words.map(word => {
-          const delay = prefersReduced ? 0 : (wordIndex * 0.24);
-          wordIndex++;
-            return `<span class="word" style="--word-delay: ${delay}s">${word}</span>`;
-        }).join(' ');
-      }).join('<br>');
-    })();
+      gsap.to(".hero__cta", {
+        y: 0,
+        opacity: 1,
+        duration: 0.9,
+        ease: "power3.out",
+        delay: 0.65
+      });
+    } else {
+      /* Immediately show everything if reduced motion is preferred */
+      gsap.set([".hero__headline", ".hero__sub", ".hero__cta"], { opacity: 1, y: 0 });
+    }
+
+    /* Set initial positions for GSAP to animate FROM */
+    gsap.set(".hero__headline", { y: 24 });
+    gsap.set(".hero__sub", { y: 16 });
+    gsap.set(".hero__cta", { y: 16 });
 
 
     /* --- Scroll Reveal (IntersectionObserver) --- */
@@ -1643,11 +1516,9 @@
     window.addEventListener('scroll', () => {
       if (!ticking) {
         requestAnimationFrame(() => {
-          if (window.scrollY > 50) {
-            header.style.background = 'rgba(255, 255, 255, 0.95)';
-          } else {
-            header.style.background = 'rgba(255, 255, 255, 0.8)';
-          }
+          header.style.background = window.scrollY > 50
+            ? 'rgba(255, 255, 255, 0.95)'
+            : 'rgba(255, 255, 255, 0.8)';
           ticking = false;
         });
         ticking = true;
