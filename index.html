@@ -394,31 +394,28 @@
     .hero__headline {
       font-size: clamp(36px, 8vw, 72px);
       font-weight: 700;
-      line-height: 1.1;
+      line-height: 1.2;
       letter-spacing: -0.03em;
       margin-bottom: 24px;
     }
 
     .hero__headline .word {
       display: inline-block;
-      clip-path: inset(0 100% 0 0);
-      transform: translateY(20px);
-      animation: wordReveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-
-      /* FIX: This forces the word to use the parent's gradient position */
-      background: inherit;
-      background-clip: text;
+      background: linear-gradient(90deg, var(--text) 0%, var(--text) 40%, var(--accent) 50%, var(--text) 60%, var(--text) 100%);
+      background-size: 230% 100%;
       -webkit-background-clip: text;
+      background-clip: text;
       -webkit-text-fill-color: transparent;
-
-      /* Important: ensure no background-attachment: fixed unless needed */
+      opacity: 0;
+      transform: translateY(20px) translateX(-8px);
+      animation: wordReveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards, shimmerMove 5s ease-in-out infinite;
+      animation-delay: var(--word-delay, 0s), 0s;
     }
 
     @keyframes wordReveal {
       to {
-        /* Reveals the word by sliding the clip-path inset to 0 */
-        clip-path: inset(0 0% 0 0);
-        transform: translateY(0);
+        opacity: 1;
+        transform: translateY(0) translateX(0);
       }
     }
 
@@ -1159,7 +1156,7 @@
       <div class="hero__orb hero__orb--cyan" aria-hidden="true"></div>
 
       <div class="hero__content">
-        <h1 class="hero__headline shimmer" id="heroHeadline">
+        <h1 class="hero__headline" id="heroHeadline">
           Connect Anything.<br>Command Everything.
         </h1>
 
@@ -1581,9 +1578,9 @@
       headline.innerHTML = lines.map(line => {
         const words = line.trim().split(/\s+/).filter(Boolean);
         return words.map(word => {
-          const delay = prefersReduced ? 0 : (wordIndex * 0.12);
+          const delay = prefersReduced ? 0 : (wordIndex * 0.24);
           wordIndex++;
-          return `<span class="word" style="animation-delay: ${delay}s">${word}</span>`;
+            return `<span class="word" style="--word-delay: ${delay}s">${word}</span>`;
         }).join(' ');
       }).join('<br>');
     })();
